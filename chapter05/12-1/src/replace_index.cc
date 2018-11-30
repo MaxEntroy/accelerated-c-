@@ -83,7 +83,7 @@ void replace_index(const std::vector<std::string>& input_sentence, std::vector<s
                 }
             }
         }
-        max_left_sz = ((int)(left.size()) > max_left_sz)?left.size():max_left_sz;
+        max_left_sz = (static_cast<int>(left.size()) > max_left_sz)?left.size():max_left_sz;
         std::vector<std::string> a_sentence;
         a_sentence.push_back(left);
         a_sentence.push_back(right);
