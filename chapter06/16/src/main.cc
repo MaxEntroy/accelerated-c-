@@ -1,65 +1,34 @@
-/*************************************************************************
-    > File Name: main.cc
-    > Author: kang
-    > Mail: likang@tju.edu.cn
-    > Created Time: 2018年03月17日 星期六 23时42分24秒
- ************************************************************************/
-#include <iostream>
+#include "inc/student_info.h"
 #include <vector>
+#include <algorithm>
 #include <fstream>
-#include <iomanip>
-#include <stdexcept>
-#include <vector>
-#include "student/StudentInfo.h"
-#include "grade/grade.h"
+#include <iostream>
 
-using namespace stugrade;
+const std::string kStudentFilePath = "./dat/input.dat";
 
-int main( int argc, char* argv[] ) {
-	
-	if( argc < 2 ) {
-		std::cerr << "Usage: \nargv[1]: input path!\n";
-		return 1;
-	}
+int main() {
+    std::ifstream fin;
+    fin.open(kStudentFilePath.c_str());
+    if(!fin.is_open()) {
+        std::cerr << "File open error.";
+        return -1;
+    }
 
-	std::vector<StudentInfo> did, didnt;
-	StudentInfo s;
+    StudentInfo stu;
+    std::vector<StudentInfo> stu_vec;
 
-	// open file
-	std::ifstream fin;
-	fin.open( argv[1] );
-	if( !fin.is_open() ) {
-		std::cerr << "[INFO]: open file failure!\n";
-		return 1;
-	}
+    while( read_student(fin, stu)) {
+        stu_vec.push_back(stu);
+    }
 
-	// read student grade
-	while( read_stu( fin, s ) ) {
-		/*
-		double total = grade(s);
-		std::streamsize prec = std::cout.precision();
-		std::cout << s.name << "\t" << std::setprecision(3) << total << std::setprecision(prec) << std::endl;
-		*/
-		if( did_all_hw(s) ) 
-			did.push_back(s);
-		else
-			didnt.push_back(s);
-	}
+    std::sort(stu_vec.begin(), stu_vec.end(), cmp_student );
 
-	// grade analysis
-	if( did.empty() ) {
-		std::cout << "No one did all homework!" << std::endl;
-	}
-	else{
-	}
+    int stu_num = stu_vec.size();
+    for(int i = 0; i < stu_num; ++i) {
+        double score = grade(stu_vec[i]);
+        std::cout << stu_vec[i].name << ":" << score << std::endl;
+    }
 
-	if( didnt.empty() ) {
-		std::cout << "Everyone did all homework" << std::endl;
-	}
-	else{
-	}
-
-	// close file
-	fin.close();
-	return 0;
+    fin.close();
+    return 0;
 }
