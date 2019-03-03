@@ -33,3 +33,6 @@
 
 # ignore bin
 **/bin/
+
+# ignore vs workspace
+*.code-workspace
