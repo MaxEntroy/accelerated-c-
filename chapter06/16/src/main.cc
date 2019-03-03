@@ -24,9 +24,16 @@ int main() {
     std::sort(stu_vec.begin(), stu_vec.end(), cmp_student );
 
     int stu_num = stu_vec.size();
+    int max_len_of_name = 0;
+    for(int i = 0; i < stu_num; ++i) {
+        int name_len = stu_vec[i].name.size();
+        max_len_of_name = (name_len > max_len_of_name)?name_len:max_len_of_name;
+    }
+    const int internal = 2;
     for(int i = 0; i < stu_num; ++i) {
         double score = grade(stu_vec[i]);
-        std::cout << stu_vec[i].name << ":" << score << std::endl;
+        std::string spaces(max_len_of_name - stu_vec[i].name.size() + internal, ' ');
+        std::cout << stu_vec[i].name << spaces << score << std::endl;
     }
 
     fin.close();
