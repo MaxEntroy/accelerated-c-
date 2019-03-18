@@ -31,6 +31,12 @@ bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs) {
     return lhs.name_ < rhs.name_;
 }
 
+void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu,
+                          std::vector<StudentInfo>& did,
+                          std::vector<StudentInfo>& didnt) {
+
+}
+
 double MedianHomeWorkGrade(const StudentInfo& stu) {
     std::vector<double> hw = stu.hw_;
 
@@ -38,6 +44,12 @@ double MedianHomeWorkGrade(const StudentInfo& stu) {
 
     return Grade(stu.midterm_grade_, stu.final_grade_, med);
 };
+
+void analysis(const std::vector<StudentInfo>& did,
+              const std::vector<StudentInfo>& didnt,
+              double (*homework_grade)(const StudentInfo&)) {
+
+}
 
 double AverageHomeWorkGrade(const StudentInfo& stu) {
     std::vector<double> hw = stu.hw_;

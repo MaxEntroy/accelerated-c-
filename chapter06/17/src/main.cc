@@ -21,7 +21,15 @@ int main(void) {
         stu_vec.push_back(stu);
     }
 
-    std::sort(stu_vec.begin(), stu_vec.end(), CompareStudentByName);
+    std::vector<StudentInfo> did;
+    std::vector<StudentInfo> didnt;
+    SeperateDidFromDidnt(stu_vec, did, didnt);
+    std::sort(did.begin(), did.end(), CompareStudentByName);
+    std::sort(didnt.begin(), didnt.end(), CompareStudentByName);
+
+    analysis(did, didnt, MedianHomeWorkGrade);
+    analysis(did, didnt, AverageHomeWorkGrade);
+    analysis(did, didnt, OptimisticHomeWorkGrade);
 
     int sz = stu_vec.size();
     for(int i = 0; i < sz; ++i) {

@@ -17,6 +17,14 @@ std::ifstream& ReadStudent(std::ifstream& fin, StudentInfo& stu);
 void ShowStudent(const StudentInfo& stu);
 bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs);
 
+void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu,
+                          std::vector<StudentInfo>& did,
+                          std::vector<StudentInfo>& didnt);
+
+void analysis(const std::vector<StudentInfo>& did,
+              const std::vector<StudentInfo>& didnt,
+              double (*homework_grade)(const StudentInfo&));
+
 double MedianHomeWorkGrade(const StudentInfo& stu);
 double AverageHomeWorkGrade(const StudentInfo& stu);
 double OptimisticHomeWorkGrade(const StudentInfo& stu);
