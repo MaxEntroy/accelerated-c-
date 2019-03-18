@@ -48,11 +48,10 @@ double AverageHomeWorkGrade(const StudentInfo& stu) {
 }
 
 double OptimisticHomeWorkGrade(const StudentInfo& stu) {
-    std::cout << "debug";
+    std::vector<double> optimistic_hw = stu.hw_;
 
-    std::vector<double> optimistic_hw;
-    std::remove_copy(stu.hw_.begin(), stu.hw_.end(), std::back_inserter(optimistic_hw), 0.0);
-    double optimistic_med = median(optimistic_hw);
+    double optimistic_med = optimistic_median(optimistic_hw);
+
     return Grade(stu.midterm_grade_, stu.final_grade_, optimistic_med);
 }
 
@@ -77,4 +76,10 @@ double average(const std::vector<double>& v) {
     return aver;
 }
 
+double optimistic_median(const std::vector<double>& v) {
+    std::vector<double> optimistic_v;
+    std::remove_copy(v.begin(), v.end(), std::back_inserter(optimistic_v), 0);
 
+    double optimistic_med = median(optimistic_v);
+    return optimistic_med;
+}

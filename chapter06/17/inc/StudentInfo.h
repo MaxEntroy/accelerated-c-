@@ -24,5 +24,6 @@ double Grade(double mid, double fin, double med);
 
 double median(std::vector<double>& v);
 double average(const std::vector<double>& v);
+double optimistic_median(const std::vector<double>& v);
 
 #endif
