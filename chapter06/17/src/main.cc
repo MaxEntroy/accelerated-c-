@@ -1,8 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <vector>
 #include "inc/StudentInfo.h"
+//#define DEBUG
 
 static const std::string kStudentDatPath = "./dat/input.dat";
 
@@ -24,24 +25,27 @@ int main(void) {
     std::vector<StudentInfo> did;
     std::vector<StudentInfo> didnt;
     SeperateDidFromDidnt(stu_vec, did, didnt);
+
+#ifdef DEBUG
+    std::cout << "did: " << std::endl;
+    int sz = did.size();
+    for(int i = 0; i < sz; ++i) {
+        ShowStudent(did[i]);
+    }
+
+    std::cout << "didnt: " << std::endl;
+    sz = didnt.size();
+    for(int i = 0; i < sz; ++i) {
+        ShowStudent(didnt[i]);
+    }
+#endif
+
     std::sort(did.begin(), did.end(), CompareStudentByName);
     std::sort(didnt.begin(), didnt.end(), CompareStudentByName);
 
-    analysis(did, didnt, MedianHomeWorkGrade);
-    analysis(did, didnt, AverageHomeWorkGrade);
-    analysis(did, didnt, OptimisticHomeWorkGrade);
-
-    int sz = stu_vec.size();
-    for(int i = 0; i < sz; ++i) {
-        double med_grade = MedianHomeWorkGrade(stu_vec[i]);
-        double aver_grade = AverageHomeWorkGrade(stu_vec[i]);
-        double optimistic_med_grade = OptimisticHomeWorkGrade(stu_vec[i]);
-        std::cout << stu_vec[i].name_ << " "
-            << med_grade << " "
-            << aver_grade << " "
-            << optimistic_med_grade
-            << std::endl;
-    }
+    WriteAnalysis(did, didnt, "Median analysis:", MedianAnalysis);
+    WriteAnalysis(did, didnt, "Average analysis:", AverageAnalysis);
+    WriteAnalysis(did, didnt, "Optimistic Median Analysis:", OptimisticMedianAnalysis);
 
     return 0;
 }

@@ -1,7 +1,8 @@
 #ifndef ACCELERATED_CPP_CHAPTER06_17_INC_STUDENTINFO_H_
 #define ACCELERATED_CPP_CHAPTER06_17_INC_STUDENTINFO_H_
-#include <string>
+
 #include <fstream>
+#include <string>
 #include <vector>
 
 struct StudentInfo {
@@ -17,13 +18,18 @@ std::ifstream& ReadStudent(std::ifstream& fin, StudentInfo& stu);
 void ShowStudent(const StudentInfo& stu);
 bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs);
 
-void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu,
+void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu_vec,
                           std::vector<StudentInfo>& did,
                           std::vector<StudentInfo>& didnt);
 
-void analysis(const std::vector<StudentInfo>& did,
-              const std::vector<StudentInfo>& didnt,
-              double (*homework_grade)(const StudentInfo&));
+void WriteAnalysis(const std::vector<StudentInfo>& did,
+                   const std::vector<StudentInfo>& didnt,
+                   const std::string& analysis_type,
+                   double (*analysis)(const std::vector<StudentInfo>&));
+
+double MedianAnalysis(const std::vector<StudentInfo>& stu_vec);
+double AverageAnalysis(const std::vector<StudentInfo>& stu_vec);
+double OptimisticMedianAnalysis(const std::vector<StudentInfo>& stu_vec);
 
 double MedianHomeWorkGrade(const StudentInfo& stu);
 double AverageHomeWorkGrade(const StudentInfo& stu);

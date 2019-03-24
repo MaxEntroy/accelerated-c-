@@ -1,8 +1,8 @@
-#include <iostream>
-#include <algorithm>
-#include <numeric>
-#include <iterator>
 #include "inc/StudentInfo.h"
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <numeric>
 
 std::ifstream& ReadStudent(std::ifstream& fin, StudentInfo& stu) {
     fin >> stu.name_;
@@ -31,10 +31,52 @@ bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs) {
     return lhs.name_ < rhs.name_;
 }
 
-void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu,
+void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu_vec,
                           std::vector<StudentInfo>& did,
                           std::vector<StudentInfo>& didnt) {
+    int sz = stu_vec.size();
+    for(int i = 0; i < sz; ++i) {
+        const StudentInfo& stu = stu_vec[i];
+        if(std::find(stu.hw_.begin(), stu.hw_.end(), 0) == stu.hw_.end()) {
+            did.push_back(stu);
+        }else {
+            didnt.push_back(stu);
+        }
+    }
+}
 
+void WriteAnalysis(const std::vector<StudentInfo>& did,
+                   const std::vector<StudentInfo>& didnt,
+                   const std::string& analysis_type,
+                   double (*analysis)(const std::vector<StudentInfo>&)) {
+    const std::string sep(10, '-');
+    std::cout << sep << analysis_type << sep << std::endl;
+
+    std::cout << "did:" << std::endl;
+    double med = analysis(did);
+    std::cout << "median of grades is: " << med << std::endl;
+
+    std::cout << "didnt" << std::endl;
+    med = analysis(didnt);
+    std::cout << "median of grades is: " << med << std::endl;
+
+    std::cout << sep << sep << std::endl;
+}
+
+double MedianAnalysis(const std::vector<StudentInfo>& stu_vec) {
+    std::vector<double> grades;
+    std::transform(stu_vec.begin(), stu_vec.end(), std::back_inserter(grades), MedianHomeWorkGrade);
+    return median(grades);
+}
+double AverageAnalysis(const std::vector<StudentInfo>& stu_vec) {
+    std::vector<double> grades;
+    std::transform(stu_vec.begin(), stu_vec.end(), std::back_inserter(grades), AverageHomeWorkGrade);
+    return median(grades);
+}
+double OptimisticMedianAnalysis(const std::vector<StudentInfo>& stu_vec) {
+    std::vector<double> grades;
+    std::transform(stu_vec.begin(), stu_vec.end(), std::back_inserter(grades), OptimisticHomeWorkGrade);
+    return median(grades);
 }
 
 double MedianHomeWorkGrade(const StudentInfo& stu) {
@@ -44,12 +86,6 @@ double MedianHomeWorkGrade(const StudentInfo& stu) {
 
     return Grade(stu.midterm_grade_, stu.final_grade_, med);
 };
-
-void analysis(const std::vector<StudentInfo>& did,
-              const std::vector<StudentInfo>& didnt,
-              double (*homework_grade)(const StudentInfo&)) {
-
-}
 
 double AverageHomeWorkGrade(const StudentInfo& stu) {
     std::vector<double> hw = stu.hw_;
