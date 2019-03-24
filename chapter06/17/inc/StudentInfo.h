@@ -16,6 +16,7 @@ struct StudentInfo {
 
 std::ifstream& ReadStudent(std::ifstream& fin, StudentInfo& stu);
 void ShowStudent(const StudentInfo& stu);
+bool IsDidAllHomeWork(const StudentInfo& stu);
 bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs);
 
 void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu_vec,

@@ -27,6 +27,10 @@ void ShowStudent(const StudentInfo& stu) {
     std::cout << std::endl;
 }
 
+bool IsDidAllHomeWork(const StudentInfo& stu) {
+    return std::find(stu.hw_.begin(), stu.hw_.end(), 0) == stu.hw_.end();
+}
+
 bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs) {
     return lhs.name_ < rhs.name_;
 }
@@ -37,7 +41,7 @@ void SeperateDidFromDidnt(const std::vector<StudentInfo>& stu_vec,
     int sz = stu_vec.size();
     for(int i = 0; i < sz; ++i) {
         const StudentInfo& stu = stu_vec[i];
-        if(std::find(stu.hw_.begin(), stu.hw_.end(), 0) == stu.hw_.end()) {
+        if(IsDidAllHomeWork(stu)) {
             did.push_back(stu);
         }else {
             didnt.push_back(stu);

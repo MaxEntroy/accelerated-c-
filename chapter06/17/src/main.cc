@@ -26,6 +26,16 @@ int main(void) {
     std::vector<StudentInfo> didnt;
     SeperateDidFromDidnt(stu_vec, did, didnt);
 
+    if(did.empty()) {
+        std::cerr << "No student did all homework." << std::endl;
+        return -1;
+    }
+
+    if(didnt.empty()) {
+        std::cerr << "All students did all homework." << std::endl;
+        return -1;
+    }
+
 #ifdef DEBUG
     std::cout << "did: " << std::endl;
     int sz = did.size();
@@ -39,9 +49,6 @@ int main(void) {
         ShowStudent(didnt[i]);
     }
 #endif
-
-    std::sort(did.begin(), did.end(), CompareStudentByName);
-    std::sort(didnt.begin(), didnt.end(), CompareStudentByName);
 
     WriteAnalysis(did, didnt, "Median analysis:", MedianAnalysis);
     WriteAnalysis(did, didnt, "Average analysis:", AverageAnalysis);
