@@ -48,6 +48,21 @@ void SeperatePassAndFailed(std::vector<StudentInfo>& stu_vec,
     }
 }
 
+void SeperatePassAndFailed1(std::vector<StudentInfo>& stu_vec,
+                            std::vector<StudentInfo>& stu_failed_vec) {
+    int failed_num = 0;
+    int sz = stu_vec.size();
+    for(int i = 0; i < sz; ++i) {
+        if(IsFailed(stu_vec[i])) {
+            stu_failed_vec.push_back(stu_vec[i]);
+            ++failed_num;
+        }else{
+            stu_vec[i - failed_num] = stu_vec[i];
+        }
+    }
+    stu_vec.erase(stu_vec.begin() + sz - failed_num, stu_vec.end());
+}
+
 void SeperatePassAndFailed(std::list<StudentInfo>& stu_list,
                            std::list<StudentInfo>& stu_failed_list) {
     typedef std::list<StudentInfo>::iterator iter;

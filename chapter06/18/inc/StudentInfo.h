@@ -23,6 +23,9 @@ bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs);
 void SeperatePassAndFailed(std::vector<StudentInfo>& stu_vec,
                            std::vector<StudentInfo>& stu_failed_vec);
 
+void SeperatePassAndFailed1(std::vector<StudentInfo>& stu_vec,
+                            std::vector<StudentInfo>& stu_failed_vec);
+
 void SeperatePassAndFailed(std::list<StudentInfo>& stu_list,
                            std::list<StudentInfo>& stu_failed_list);
 
