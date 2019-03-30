@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <vector>
 #include "inc/StudentInfo.h"
 //#define DEBUG
@@ -8,7 +9,7 @@
 static const std::string kStudentDatPath = "./dat/input.dat";
 
 int main(void) {
-    std::vector<StudentInfo> stu_vec;
+    std::list<StudentInfo> stu_list;
     StudentInfo stu;
 
     std::ifstream fin;
@@ -19,27 +20,30 @@ int main(void) {
     }
 
     while( ReadStudent(fin, stu) ) {
-        stu_vec.push_back(stu);
+        stu_list.push_back(stu);
     }
 
-    std::sort(stu_vec.begin(), stu_vec.end(), CompareStudentByName);
+    stu_list.sort(CompareStudentByName);
 
-    std::vector<StudentInfo> stu_failed_vec;
-    SeperatePassAndFailed(stu_vec, stu_failed_vec);
+    std::list<StudentInfo> stu_failed_list;
+    SeperatePassAndFailed(stu_list, stu_failed_list);
 
     std::cout << "Student who passed the exam: " << std::endl;
-    int sz = stu_vec.size();
-    for(int i = 0; i < sz; ++i) {
-        double grade = MedianHomeWorkGrade(stu_vec[i]);
-        std::cout << stu_vec[i].name_ << " " << grade << std::endl;
+    typedef std::list<StudentInfo>::const_iterator const_iter;
+    const_iter b = stu_list.begin();
+    const_iter e = stu_list.end();
+    for(; b != e; ++b) {
+        double grade = MedianHomeWorkGrade(*b);
+        std::cout << b->name_ << " " << grade << std::endl;
     }
 
     std::cout << "Student who failed the exam: " << std::endl;
-    sz = stu_failed_vec.size();
-    for(int i = 0; i < sz; ++i) {
-        double grade = MedianHomeWorkGrade(stu_failed_vec[i]);
-        std::cout << stu_failed_vec[i].name_ << " " << grade << std::endl;
-    }   
+    b = stu_failed_list.begin();
+    e = stu_failed_list.end();
+    for(; b != e; ++b) {
+        double grade = MedianHomeWorkGrade(*b);
+        std::cout << b->name_ << " " << grade << std::endl;
+    }
 
     return 0;
 }

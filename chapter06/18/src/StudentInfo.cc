@@ -48,6 +48,22 @@ void SeperatePassAndFailed(std::vector<StudentInfo>& stu_vec,
     }
 }
 
+void SeperatePassAndFailed(std::list<StudentInfo>& stu_list,
+                           std::list<StudentInfo>& stu_failed_list) {
+    typedef std::list<StudentInfo>::iterator iter;
+    iter b = stu_list.begin();
+    iter e = stu_list.end();
+    while(b != e) {
+        if(IsFailed(*b)) {
+            stu_failed_list.push_back(*b);
+            b = stu_list.erase(b);
+        }
+        else{
+            ++b;
+        }
+    }
+}
+
 double MedianHomeWorkGrade(const StudentInfo& stu) {
     std::vector<double> hw = stu.hw_;
 
