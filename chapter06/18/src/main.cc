@@ -26,7 +26,7 @@ int main(void) {
     std::sort(stu_vec.begin(), stu_vec.end(), CompareStudentByName);
 
     std::vector<StudentInfo> stu_failed_vec;
-    SeperatePassAndFailed1(stu_vec, stu_failed_vec);
+    SeperatePassAndFailed2(stu_vec, stu_failed_vec);
 
     std::cout << "Student who passed the exam: " << std::endl;
     int sz = stu_vec.size();
