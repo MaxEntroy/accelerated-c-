@@ -31,6 +31,10 @@ bool IsFailed(const StudentInfo& stu) {
     return MedianHomeWorkGrade(stu) < 60;
 }
 
+bool IsPassed(const StudentInfo& stu) {
+    return !IsFailed(stu);
+}
+
 bool CompareStudentByName(const StudentInfo& lhs, const StudentInfo& rhs) {
     return lhs.name_ < rhs.name_;
 }
@@ -89,6 +93,68 @@ void SeperatePassAndFailed2(std::vector<StudentInfo>& stu_vec,
     }
 
     stu_vec.erase(std::remove_if(stu_vec.begin(), stu_vec.end(), IsFailed) ,stu_vec.end());
+}
+
+void SeperatePassAndFailed3(std::vector<StudentInfo>& stu_vec,
+                            std::vector<StudentInfo>& stu_failed_vec) {
+    int pivot = partation(stu_vec);
+    stu_failed_vec = std::vector<StudentInfo>(stu_vec.begin() + pivot, stu_vec.end());
+    stu_vec.erase(stu_vec.begin() + pivot, stu_vec.end());
+}
+
+int partation(std::vector<StudentInfo>& stu_vec) {
+    int i = 0;
+    int j = stu_vec.size() - 1;
+    while(i < j) {
+        while(i < j && !IsFailed(stu_vec[i])) ++i;
+        if(i < j) {
+            while(i < j && IsFailed(stu_vec[j])) --j;
+            if(i < j) {
+                swap(stu_vec[i], stu_vec[j]);
+                ++i;
+            }
+        }
+    }
+    return i;
+}
+
+void swap(StudentInfo& lhs, StudentInfo& rhs) {
+    StudentInfo tmp = lhs;
+    lhs = rhs;
+    rhs = tmp;
+}
+
+void SeperatePassAndFailed4(std::vector<StudentInfo>& stu_vec,
+                            std::vector<StudentInfo>& stu_failed_vec) {
+    std::vector<StudentInfo>::iterator i = partation1(stu_vec.begin(), stu_vec.end(), IsFailed);
+    stu_failed_vec = std::vector<StudentInfo>(i, stu_vec.end());
+    stu_vec.erase(i, stu_vec.end());
+}
+
+template<class Iter, class UnaryPredicate>
+Iter partation1(Iter first, Iter last, UnaryPredicate pred) {
+    Iter i = first;
+    Iter j = last - 1;
+    while(i < j) {
+        while(i < j && !pred(*i)) ++i;
+        if(i < j) {
+            while(i < j && pred(*j)) --j;
+            if(i < j) {
+                swap(*i, *j);
+                ++i;
+            }
+        }
+    }
+    return i;
+}
+
+void SeperatePassAndFailed5(std::vector<StudentInfo>& stu_vec,
+                            std::vector<StudentInfo>& stu_failed_vec) {
+    std::vector<StudentInfo>::iterator pivot = std::stable_partition(stu_vec.begin(),
+                                                                     stu_vec.end(),
+                                                                     IsPassed);
+    stu_failed_vec = std::vector<StudentInfo>(pivot, stu_vec.end());
+    stu_vec.erase(pivot, stu_vec.end());
 }
 
 double MedianHomeWorkGrade(const StudentInfo& stu) {
